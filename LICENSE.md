@@ -1,7 +1,7 @@
 El Sistema de Denuncias de la OAC es Software Libre. Y es ofrecido bajo los términos
  de la siguiente licencia BSD.
 
-Copyright (c) <2016>, <Luis Salazar> (@salexanderluis)
+Copyright (c) <2016>, <Luis Salazar> (@_szluis)
 Todos los derechos reservados.
 
 La redistribución y el uso en las formas de código fuente y binario, con o sin

@@ -36,6 +36,8 @@ $(document).ready(function() {
                     //.hide()
                     .fadeIn(1000)
                 } else {
+                    //$("#result").removeClass("alert-success");
+                    //$('#result').addClass("alert-warning");
                     divs = '<div  class="alert alert-warning alert-dismissible" role="alert">'
                     $('#result').html(divs + msg + xdismissible)
                         //.hide()
@@ -87,48 +89,7 @@ $(document).ready(function() {
         return false;
     });
 
-    /*
-     * Actualización del estatus del proceso
-     */
-    $('#formestatus').submit(function() {
 
-
-        xdismissible = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-        // Enviamos el formulario usando AJAX
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-
-            beforeSend: function() {
-                $('#result').html('Enviando...')
-            },
-
-            success: function(msg) {
-                if (msg > 0) {
-                    $("#estatus").val("");
-                    $("#observacion").val("");
-
-                    divs = '<div  class="alert alert-success alert-dismissible" role="alert">';
-                    reporte = '<a href="../index.php?opcion=' + $('#tipo_proceso').val() + '&id_ciudadano=' + msg + '">Volver</a>';
-
-                    $('#result').html(divs + "Los datos se han guardado exitosamente. Actualizando valores de la tabla..." + xdismissible)
-                        //.hide()
-                        .fadeIn(1000)
-                    location.reload(true);
-
-                } else {
-                    divs = '<div  class="alert alert-warning alert-dismissible" role="alert">';
-                    $('#result').html(divs + msg + xdismissible)
-                        //.hide()
-                        .fadeIn(1000)
-                }
-            }
-
-        });
-
-        return false;
-    });
 
     $('#updateatencion').submit(function() {
 
@@ -167,56 +128,8 @@ $(document).ready(function() {
     });
 
 
-    $('#formdatosproceso').submit(function() {
 
-        xdismissible = '<button type="button" class="close" data-dismiss="alert" aria-label="Hide"><span aria-hidden="true">&times;</span></button></div>';
-        // Enviamos el formulario usando AJAX
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
 
-            beforeSend: function() {
-                $('#result').html('Enviando...')
-            },
-
-            success: function(msg) {
-                vector = msg.split(",");
-                id = vector[0];
-                proceso = vector[1];
-                tabla = vector[2];
-
-                if (id > 0) {
-                    $("#txtcedula").val("");
-                    $("#txtapellidos").val("");
-                    $("#txtnombres").val("");
-                    $("#txtdireccion").val("");
-                    $("#txttelefonos").val("");
-                    $("#txtcorreo").val("");
-                    $("#txtobservaciones").val("");
-
-                    divs = '<div  class="alert alert-success alert-dismissible" role="alert">';
-                    reporte = '<a href="reporte_proceso.php?id=' + id + '&proceso=' + proceso + '&tabla=' + tabla + '">Ver reporte</a>';
-
-                    $('#result').html(divs + "Los datos se han guardado exitosamente. Clic para " + reporte + xdismissible)
-
-                    //.hide()
-                    .fadeIn(1000)
-                } else {
-                    //$("#result").removeClass("alert-success");
-                    //$('#result').addClass("alert-warning");
-                    divs = '<div  class="alert alert-warning alert-dismissible" role="alert">'
-                    $('#result').html(divs + msg + xdismissible)
-                        //.hide()
-                        .fadeIn(1000)
-                }
-
-            }
-
-        });
-
-        return false;
-    });
 
 
     //buscar datos del usuario
@@ -235,46 +148,18 @@ $(document).ready(function() {
                 $('#resultado').html(msg)
                     .hide()
                     .fadeIn(1000)
-
+                    //.append("<p>We will be in touch soon.</p>")
+                    //.hide()
+                    /*.fadeIn(1500, function() {
+          			$('#result').append("<img id='checkmark' src='../../images/check.png' />");
+        		});*/
             }
         });
         return false;
     });
 
 
-    //buscar datos del usuario
-    $('#inisesusu').submit(function() {
-        // Enviamos el formulario usando AJAX
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
 
-            beforeSend: function() {
-                $('#result').html('Iniciando...')
-            },
-
-            success: function(msg) {
-                if (msg === '1') {
-                    $('#result').html("Iniciando sesión...")
-                        .hide()
-                        .fadeIn(1000)
-                    var url = "home.php";
-                    $(location).attr('href', url);
-
-                } else {
-                    $('#result').html(msg)
-                        .hide()
-                        .fadeIn(1000)
-                }
-            },
-
-            error: function() {
-                alert("Ha ocurrido un problema, disculpas por las molestias causadas.");
-            }
-        });
-        return false;
-    });
 
     $('#btn_citizen').click(function() {
         // Enviamos el formulario usando AJAX
@@ -317,36 +202,7 @@ $(document).ready(function() {
     });
 
 
-    $('#actusu').submit(function() {
-        // Enviamos el formulario usando AJAX
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
 
-            beforeSend: function() {
-                $('#result').html('Enviando...')
-            },
-
-            success: function(msg) {
-                $('#result').html(msg)
-                    //.append("<p>We will be in touch soon.</p>")
-                    .hide()
-                    .fadeIn(1000)
-                $("#txtNomSesUsu").val("");
-                $("#txtConUsu").val("");
-                $("#txtRepConUsu").val("");
-                $("#txtApeUsu").val("");
-                $("#txtNomUsu").val("");
-                $("#txtCorEleUsu").val("");
-
-
-
-
-            }
-        });
-        return false;
-    });
 
 
     $('#myModal').on('show.bs.modal', function(event) {
@@ -355,29 +211,38 @@ $(document).ready(function() {
         var proceso = link.data('proceso')
         var id_proceso = link.data('id_proceso')
         var codigo_proceso = link.data('codigo')
-        var url = link.data('url')
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            //            var modal = $(this)
+            //            modal.find('.modal-title').text('New message to ' + recipient)
         $.ajax({
             type: 'POST',
-            url: './ajax_detalles_procesos.php',
+            url: 'detalles_atencion.php',
             data: { 'tabla': tabla, 'proceso': proceso, 'codigo_proceso': codigo_proceso, 'id_proceso': id_proceso },
 
+            //			beforeSend: function(){
+            //                            $('.modal-body').html('Consultando...')
+            //   			},			
 
             success: function(result) {
                     $('#myModalLabel').text(proceso.toUpperCase() + ': #' + codigo_proceso)
                     $('#myModalBody').html(result);
+                    //                            modal.find('.modal-body').html(result.narracion_hechos)
+                    //                            $('.modal-body').html(result.narracion_hechos)
+                    //                            .hide()
+                    //                            .fadeIn(1000)
+                    //.append("<p>We will be in touch soon.</p>")
+                    //.hide()
+                    /*.fadeIn(1500, function() {
+                            $('#result').append("<img id='checkmark' src='../../images/check.png' />");
+                    });*/
                 }
                 //                        ,
                 //                        dataType: 'json'
         })
     });
 
-    $('#cambiarEstatus').on('show.bs.modal', function(event) {
-        var link = $(event.relatedTarget) // Button that triggered the modal
-        $("#codigo_proceso").val(link.data('codigo_proceso'))
-        $("#tipo_proceso").val(link.data('tipo_proceso'))
-        $("#id_proceso").val(link.data('id_proceso'))
-        $("#tabla").val(link.data('tabla')) // Extract info from data-* attributes
-    });
+
 
 
 
@@ -399,11 +264,11 @@ $(document).ready(function() {
 
 
         $.ajax({
-            url: "ajax.php",
+            url: "../helpers/helpers.php",
             data: { 'txtcedula': cedula.val() },
             type: 'post',
+            dataType: 'json',
             success: function(result) {
-
                 if (result.id_ciudadano && result.apellidos && result.nombres &&
                     result.correo && result.direccion && result.telefonos) {
                     if (result.denuncias > '0') {
@@ -450,8 +315,8 @@ $(document).ready(function() {
                     direccion.val('');
                     telefonos.val('');
                 }
-            },
-            dataType: 'json'
+            }
+
         });
     });
 
@@ -461,12 +326,12 @@ $(document).ready(function() {
     $("#comunidad").change(function() {
         //		if ($(this).val() > 5){};
         if ($(this).val() != '0') {
-            $("#nueva_comunidad").attr('href', 'nueva_comunidad.php?id_comunidad=' + $(this).val() + '&comunidad=' + $("option:selected", this).text());
+            $("#nueva_comunidad").attr('href', '../comunidades/index.php?id_comunidad=' + $(this).val() + '&comunidad=' + $("option:selected", this).text());
         } else {
-            $("#nueva_comunidad").attr('href', 'nueva_comunidad.php');
+            $("#nueva_comunidad").attr('href', '../comunidades/index.php');
         }
         $.ajax({
-            url: "ajax.php",
+            url: "../helpers/helpers.php",
             data: { 'comunidad': $(this).val() },
             type: 'post',
             success: function(result) {
@@ -503,10 +368,69 @@ $(document).ready(function() {
 
             },
             dataType: 'json'
+                // capturamos el valor elegido
+                // Llamamos al archivo cargar.ups.php
+                //				$.post("../usuarios/cambiar.ups.ganado.usuario.php",
+                //				{ elegido: $(this).val() },				
+                //				function(data){
+                //					// Asignamos las nuevas opciones para el cmbUps
+                //					$("#liTipGan").html('<strong>Ganado actual: </strong>' + data);								
+                //				});        
         });
 
         return false;
     });
+
+    //***************************************
+    // Creamos el evento change para detectar el elemento elegido del combo Comunidad
+    $("#municipios").change(function() {
+        var municipio_seleccionado = $(this).val();
+
+
+        $.ajax({
+            url: "../helpers/helpers.php",
+            data: { 'municipio': municipio_seleccionado },
+            type: 'GET',
+            success: function(result) {
+                $("#parroquia").html("");
+                $("#parroquia").append('<option value="0">Seleccionar</option>');
+                $.each(result, function(key, value) {
+                    $("#parroquia").append(` <option value="${value.id}">${value.parroquia}</option>`);
+
+                })
+
+
+            },
+            dataType: 'json'
+        });
+
+        return false;
+    });
+
+    $("#parroquia").change(function() {
+        var parroquia_seleccionada = $(this).val();
+
+
+        $.ajax({
+            url: "../helpers/helpers.php",
+            data: { 'parroquia': parroquia_seleccionada },
+            type: 'GET',
+            success: function(result) {
+                $("#comunidad").html("");
+                $("#comunidad").append('<option value="0">Seleccionar</option>');
+                $.each(result, function(key, value) {
+                    $("#comunidad").append(`<option value="${value.id_comunidad}">${value.comunidad}</option>`);
+
+                })
+
+
+            },
+            dataType: 'json'
+        });
+
+        return false;
+    });
+
 
 
 

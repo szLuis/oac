@@ -83,27 +83,31 @@ switch ($tipo_proceso) {
 <link rel="icon" 
       type="image/png" 
       href="imagenes/google_calendar.png" />
+
 <!-- DataTables CSS -->
 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 <!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="jquery/jquery.dataTables.css">  
-<!-- jQuery --><script type="text/javascript" charset="utf8" src="jquery/jquery-1.11.3.min.js"></script>  
+<link href="datatables/dataTables.bootstrap.css" rel="stylesheet">
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="jquery/jquery-3.1.1.min.js"></script>  
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<!-- DataTables -->
-<script type="text/javascript" charset="utf8" src="jquery/jquery.dataTables.js"></script>
+
+<!-- DataTables JS -->
+<script    src="datatables/jquery.dataTables.min.js"></script>
+<script    src="datatables/dataTables.bootstrap.js"></script>
+
+
 <script type="text/javascript" src="proceso/ajax.js"></script>
 
 <style>
-table.display {
-margin: 0 auto;
-width: 100%;
-clear: both;
-border-collapse: collapse;
-table-layout: fixed;
-word-wrap:break-word;
-}
-
-
+    table.display {
+        margin: 0 auto;
+        width: 100%;
+        clear: both;
+        border-collapse: collapse;
+        table-layout: fixed;
+        word-wrap:break-word;
+    }
 </style>
 
 </head>
@@ -118,7 +122,7 @@ word-wrap:break-word;
                 <h1 class="text-center"><span style="font-weight: bold; text-shadow: 1px 1px 3px black ;  color: white;">Oficina de Atención al Ciudadano</span></h1>
             </div>
         </div>
-        <a class="btn btn-default" href="./proceso/index.php" role="button"><span class="glyphicon glyphicon-home"></span> Inicio</a>
+        <a class="btn btn-default" href="./atenciones/index.php" role="button"><span class="glyphicon glyphicon-home"></span> Inicio</a>
             <a class="btn btn-default" href="index.php?opcion=<?php echo $linkOne; ?>" role="button"><?php echo $linkOne; ?></a>
             <a class="btn btn-default" href="index.php?opcion=<?php echo $linkTwo; ?>" role="button"><?php echo $linkTwo; ?></a>
             
@@ -236,8 +240,17 @@ word-wrap:break-word;
                                 <th>Acción</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Código</th>
+                                <th>Observaciones</th>
+                                <th>Estatus</th>
+                                <th>Ciudadano</th>
+                                <th>Resolver antes de</th>
+                                <th>Acción</th>
+                            </tr>
+                        </tfoot>
                         <tbody>
-                            <?php include './datatable.php'; ?>
                         </tbody>
                     </table>
                 </div>
@@ -252,11 +265,35 @@ word-wrap:break-word;
 </html>
 <script>
     $(document).ready( function () {
+
+        $('#myModal').on('show.bs.modal', function(event) {
+            var link = $(event.relatedTarget) // Button that triggered the modal
+            var tabla = link.data('tabla') // Extract info from data-* attributes
+            var proceso = link.data('proceso')
+            var id_proceso = link.data('id_proceso')
+            var codigo_proceso = link.data('codigo')
+            var url = link.data('url')
+            $.ajax({
+                type: 'POST',
+                url: 'dashboard/ajax_detalles_procesos.php',
+                data: { 'tabla': tabla, 'proceso': proceso, 'codigo_proceso': codigo_proceso, 'id_proceso': id_proceso },
+
+
+                success: function(result) {
+                        $('#myModalLabel').text(proceso.toUpperCase() + ': #' + codigo_proceso)
+                        $('#myModalBody').html(result);
+                    }
+                    //                        ,
+                    //                        dataType: 'json'
+            })
+        });
         $('#procesos').dataTable({
+            "serverSide": false,
+            "ajax": "dashboard/datatable_json.php?opcion=<?php echo $proceso; ?>"   ,
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Spanish.json"
+                "url": "datatables/Spanish.json"
             },
-             "pageLength": 5  ,
+             "pageLength": 10  ,
             "columnDefs": [    { "width": "10%", "targets": 0 }, 
                                { "width": "35%", "targets": 1 }, 
                                { "width": "12%", "targets": 4 }, 
