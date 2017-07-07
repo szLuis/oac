@@ -135,6 +135,7 @@
 
      function getParroquias($municipio){
         $objDB= new DBConexion();
+        $objDB->execute("SET NAMES utf8");
         $query = "SELECT id, parroquia "
                 . "FROM parroquias_barinas "
                 . "WHERE municipio = '$municipio'";

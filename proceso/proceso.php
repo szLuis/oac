@@ -216,7 +216,7 @@ if ($_SESSION['logged'] != true ){
                 <h1 class="text-center"><span style="font-weight: bold; text-shadow: 1px 1px 3px black ;  color: white;">Oficina de Atención al Ciudadano</span></h1>
             </div>
             <?php if (("grida"!=$_GET['from'])){ ?>
-            <a class="btn btn-default" href="index.php" role="button"><span class="glyphicon glyphicon-home"></span> Inicio</a>
+            <a class="btn btn-default" href="../atenciones/index.php" role="button"><span class="glyphicon glyphicon-home"></span> Inicio</a>
             <a class="btn btn-default" href="proceso.php?proceso=<?php echo $linkOne; ?>" role="button"><?php echo $linkOne; ?></a>
             <a class="btn btn-default" href="proceso.php?proceso=<?php echo $linkTwo; ?>" role="button"><?php echo $linkTwo; ?></a>
             <?php } ?>

@@ -112,7 +112,7 @@ word-wrap:break-word;
             <div style="background: url('../imagenes/banner_background.jpg') no-repeat; background-size: 100%" class="well well-sm">
                 <div style="text-align: right;  font-size: 15px;  color: white; font-weight: bold">
                     <?php echo utf8_encode($_SESSION['nomUsuario']) . "," ; ?> 
-                    <a id ="footer" href= "usuarios/logout.php">Salir</a> 
+                    <a id ="footer" href= "../usuarios/logout.php">Salir</a> 
                 </div>
                 <h1 class="text-center"><span style="font-weight: bold; text-shadow: 1px 1px 3px black ;  color: white;">Oficina de Atención al Ciudadano</span></h1>
             </div>

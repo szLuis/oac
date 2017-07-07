@@ -126,7 +126,7 @@ if (isset($year) && !empty($year))// llamado desde dashboard
                 WHERE idusuario = {$id_usuario}
                 AND MONTHNAME({$tabla}.fecha_registro)='{$mes}'
                 AND year = '{$year}'
-                AND estatus = '{$estatus}'";
+                AND estatus = '{$estatus}' ";
     }else{ 
         $query = "SELECT *, {$tabla}.fecha_registro AS fecRegPro 
                 FROM {$tabla} 
@@ -141,8 +141,11 @@ $numRows = $objDB->getNumRows($query);
 $rs = $objDB->getRecords($query);
     $rows_json = array();
     foreach ($rs as $value) {
-        
-        $fecha = date_create_from_format("Y-m-d", $value['fecha_resolucion']) ;
+            
+            $fecha = date_create_from_format("Y-m-d", $value['fecha_resolucion']) ;
+        if ("atenciones" == $tabla){
+            $fecha = date_create_from_format("Y-m-d", $value['fecRegPro']) ;
+        }
         
         $fecha_resolucion = date_format($fecha, "d/m/Y");
         
@@ -161,6 +164,9 @@ $rs = $objDB->getRecords($query);
         
         $estatus = $value['estatus'];
         
+        if (empty($estatus)){
+            $estatus = "ninguno";
+        }
 //                        if ($estatus=='A'){
 //                            $estatus='Aceptada';
 //                        }  else {
@@ -172,9 +178,13 @@ $rs = $objDB->getRecords($query);
         
         
         if ($value['fecRegPro']==date('Y-m-d')){
-            $accion = "<a class='editar' href='../proceso/proceso.php?proceso={$tipo_proceso}&opcion=actualizar&id_proceso={$value[$id_process]}'>Editar</a>";
+            $accion = "<a class='editar' href='proceso/proceso.php?proceso={$tipo_proceso}&opcion=actualizar&id_proceso={$value[$id_process]}'>Editar</a>";
+            if (isset($year)){
+                $accion = "<a class='editar' href='../proceso/proceso.php?proceso={$tipo_proceso}&opcion=actualizar&id_proceso={$value[$id_process]}'>Editar</a>";
+            }
+            
             if ($tipo_proceso==="atencion"){
-                $accion = "<a class='editar' href='../proceso/proceso_atencion.php?opcion=actualizar&id_proceso={$value[$id_process]}'>Editar</a>";
+                $accion = "<a class='editar' href='../atenciones/ver_atencion.php?opcion=actualizar&id_proceso={$value[$id_process]}'>Editar</a>";
             }
         }else{
             $accion = "No editable";
@@ -195,12 +205,18 @@ $rs = $objDB->getRecords($query);
         $status_link = "<a class='estatus'  href='#cambiarEstatus' data-tabla='{$tabla}' data-codigo_proceso='{$codigo_proceso}' data-tipo_proceso='{$tipo_proceso}' data-id_proceso='{$value[$id_process]}' data-toggle='modal'>{$estatus}</a>";
         $ciudadano = $value['apellidos'] . ", " .$value['nombres'];
 
+        if (empty($ciudadano) || trim($ciudadano) == ","){
+            $ciudadano = "no registrado";
+        }
+        $ciudadano = utf8_encode($ciudadano);
+        $observaciones = utf8_encode($observaciones);
 
-        array_push($rows_json, array($codigo, $observaciones, $status_link, $ciudadano, $fecha_resolucion, $accion));
+        array_push($rows_json, array("codigo"=>$codigo, "observaciones"=>$observaciones, "estatus"=>$status_link, "ciudadano"=>$ciudadano, "fecha"=>$fecha_resolucion, "accion" =>$accion));
 
     }
     
     $arr = array("draw"=> 1, "recordsTotal"=>$numRows,  "recordsFiltered"=>$numRows,   "data"=>$rows_json);
+    header('Content-type:application/json;charset=utf-8');
     echo json_encode($arr);
 
 

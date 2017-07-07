@@ -27,9 +27,9 @@ $(document).ready(function() {
                     $("#txtnarracionhechos").val("");
 
                     divs = '<div  class="alert alert-success alert-dismissible" role="alert">';
-                    solicitud = '<a href="proceso.php?proceso=solicitud">Solicitud</a>';
-                    denuncia = '<a href="proceso.php?proceso=denuncia">Denuncia</a>';
-                    reclamo = '<a href="proceso.php?proceso=reclamo">Reclamo</a>';
+                    solicitud = '<a href="../proceso/proceso.php?proceso=solicitud">Solicitud</a>';
+                    denuncia = '<a href="../proceso/proceso.php?proceso=denuncia">Denuncia</a>';
+                    reclamo = '<a href="../proceso/proceso.php?proceso=reclamo">Reclamo</a>';
 
                     $('#result').html(divs + "Los datos se han guardado exitosamente. ¿Registrar una " + solicitud + ", " + denuncia + " o " + reclamo + "?" + xdismissible)
 

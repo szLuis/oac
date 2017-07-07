@@ -166,25 +166,61 @@ $('#column_chart_estatus').html('');
                               proceso = 'atencion';
                           }
                           
-                        if (value === 'Atenciones'){
-                            $.ajax({
-                            url: "datatable_json.php?year=" + $("#year").val(),
-                            data: {'tipoProceso' : proceso,'mes': mes, 'id_usuario': id_usuario},
-                            type: 'GET',
+                        if (value === 'Atenciones'){ //Se genera listado de atenciones
+                                $('#column_chart_estatus').hide();
+                                $('#nombre_proceso').html(value);
+                                $('#procesos').dataTable({
 
-                            success: function(msg){
-        //                                $('#result').attr('class','alert alert-success')
-                                        $('#column_chart_estatus').hide();
-                                        $('#nombre_proceso').html(value)
-                                        $('#result').html(msg) 
+                                        destroy: true,
+                                        "language": {
+                                            "url": "../datatables/Spanish.json"
+                                        },
+                                        "pageLength": 10  ,
+                                        bFilter: false, bInfo: false,"paging":   true, "ordering": true,
+                                        
+                                        // "columnDefs": [    { "width": "10%", "targets": 0 }, 
+                                        //                 { "width": "35%", "targets": 1 }, 
+                                        //                 { "width": "12%", "targets": 4 }, 
+                                        //                 { "width": "5%", "targets": 5 },
+                                        //                 { "searchable": false, "targets": [1,2,3,4,5] }],
+                                                        
+                                        "ajax":{ "url":"datatable_json.php?year=" + $("#year").val(),
+                                                "data": {'tipoProceso' : proceso,'mes': mes, 'id_usuario': id_usuario},
+                                                "dataType": "json",
+                                                
+                                            }
+                                        ,
+
+                                        "columns": [
+                                            { "data": "codigo" },
+                                            { "data": "observaciones" },
+                                            { "data": "estatus" },
+                                            { "data": "ciudadano" },
+                                            { "data": "fecha" },
+                                            { "data": "accion" }
+                                        ]
+                                       
+                                });
+
+
+        //                     $.ajax({
+        //                     url: "datatable_json.php?year=" + $("#year").val(),
+        //                     data: {'tipoProceso' : proceso,'mes': mes, 'id_usuario': id_usuario},
+        //                     type: 'GET',
+
+        //                     success: function(msg){
+        // //                                $('#result').attr('class','alert alert-success')
+        //                                 $('#column_chart_estatus').hide();
+        //                                 $('#nombre_proceso').html(value)
+        //                                 $('#result').html(msg) 
                                         
 
-                                        .hide()
-                                        .fadeIn(1000) 
-                                }
+        //                                 .hide()
+        //                                 .fadeIn(1000) 
+        //                         }
 
-                            });
-                            return false;
+        //                     });
+        //                     return false;
                         }
                         else{
                             //
@@ -232,50 +268,62 @@ $('#column_chart_estatus').html('');
                                     }else{
                                         proceso = 'atencion';
                                     }
-
+                                    $('#nombre_proceso').html(value);
                                     $('#procesos').dataTable({
+
                                         destroy: true,
                                         "language": {
                                             "url": "../datatables/Spanish.json"
                                         },
-                                        //"pageLength": 5  ,
+                                        "pageLength": 10  ,
                                         bFilter: false, bInfo: false,"paging":   false, "ordering": false,
-                                        "columnDefs": [    { "width": "10%", "targets": 0 }, 
-                                                        { "width": "35%", "targets": 1 }, 
-                                                        { "width": "12%", "targets": 4 }, 
-                                                        { "width": "5%", "targets": 5 },
-                                                        { "searchable": false, "targets": [1,2,3,4,5] }],
+                                        
+                                        // "columnDefs": [    { "width": "10%", "targets": 0 }, 
+                                        //                 { "width": "35%", "targets": 1 }, 
+                                        //                 { "width": "12%", "targets": 4 }, 
+                                        //                 { "width": "5%", "targets": 5 },
+                                        //                 { "searchable": false, "targets": [1,2,3,4,5] }],
+                                                        
                                         "ajax":{ "url":"datatable_json.php?year=" + $("#year").val(),
                                                 "data": {'tipoProceso' : proceso,'mes': mes, 'id_usuario': id_usuario, 'estatus': estatus},
                                                 "dataType": "json",
-                                                // cache: false,
-                                                "contentType": "application/json; charset=utf-8"
+                                                
                                             }
+                                        ,
+
+                                        "columns": [
+                                            { "data": "codigo" },
+                                            { "data": "observaciones" },
+                                            { "data": "estatus" },
+                                            { "data": "ciudadano" },
+                                            { "data": "fecha" },
+                                            { "data": "accion" }
+                                        ]
                                         
                                        
                                     });
 
-                                    $.ajax({
-                                    url: "datatable_json.php?year=" + $("#year").val(),
-                                    data: {'tipoProceso' : proceso,'mes': mes, 'id_usuario': id_usuario, 'estatus': estatus},
-                                    type: 'GET',
+                //                     $.ajax({
+                //                     url: "datatable_json.php?year=" + $("#year").val(),
+                //                     data: {'tipoProceso' : proceso,'mes': mes, 'id_usuario': id_usuario, 'estatus': estatus},
+                //                     type: 'GET',
 
-                                    success: function(msg){
+                //                     success: function(msg){
                                         
         
-                //                                $('#result').attr('class','alert alert-success')
-                                                $('#nombre_proceso').html(value)
+                // //                                $('#result').attr('class','alert alert-success')
+                //                                 $('#nombre_proceso').html(value)
 
-                                                //$('#result').html(msg) 
+                //                                 //$('#result').html(msg) 
 
-                                                .hide()
-                                                .fadeIn(1000) 
-                                        $('.editar').removeAttr('href');
-                                         $('.estatus').removeAttr('href');
+                //                                 .hide()
+                //                                 .fadeIn(1000) 
+                //                         $('.editar').removeAttr('href');
+                //                          $('.estatus').removeAttr('href');
 
-                                        }
+                //                         }
 
-                                    });
+                //                     });
                                     return false;
 
 
@@ -338,14 +386,14 @@ $('#column_chart_estatus').html('');
 </script>
 
 <style>
-table.display {
+/*table.display {
 margin: 0 auto;
 width: 100%;
 clear: both;
 border-collapse: collapse;
 table-layout: fixed;
 word-wrap:break-word;
-}
+}*/
 </style>
 
 </head>
@@ -356,7 +404,7 @@ word-wrap:break-word;
         <div style="background: url('../imagenes/banner_background.jpg') no-repeat; background-size: 100%" class="well well-sm">
             <div style="text-align: right;  font-size: 15px; color: white; font-weight: bold">
                 <?php echo utf8_encode($_SESSION['nomUsuario']) . "," ; ?> 
-                <a class="disabled" id ="footer" href= "usuarios/logout.php">Salir</a> 
+                <a class="disabled" id ="footer" href= "../usuarios/logout.php">Salir</a> 
             </div>
             <h1 class="text-center"><span style="font-weight: bold; text-shadow: 1px 1px 3px black ; color: white;">Oficina de Atención al Ciudadano</span></h1>
             
@@ -374,8 +422,9 @@ word-wrap:break-word;
                             <label for="year" class="control-label">Seleccionar año:</label>
                                 <select onchange="drawChart();" id="year" name="year" class="form-control">
                                     <option value="2014">2014</option>
-                                    <option value="2015" selected="true">2015</option>
+                                    <option value="2015">2015</option>
                                     <option value="2016">2016</option>
+                                    <option value="2017" selected="true">2017</option>
                                 </select>
                         </div>
                     
@@ -451,19 +500,10 @@ word-wrap:break-word;
                                 <th>Acción</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Código</th>
-                                <th>Observaciones</th>
-                                <th>Estatus</th>
-                                <th>Ciudadano</th>
-                                <th>Resolver antes de</th>
-                                <th>Acción</th>
-                            </tr>
-                        </tfoot>
-                        <!--<tbody id="result">
+                        
+                        <tbody>
                             
-                        </tbody>-->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -482,18 +522,18 @@ word-wrap:break-word;
 <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
 <!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="../jquery/jquery-1.11.3.min.js"></script>  
+<script type="text/javascript" charset="utf8" src="../jquery/jquery-3.1.1.min.js"></script>  
 
 <!-- DataTables CSS -->
 <link href="../datatables/dataTables.bootstrap.css" rel="stylesheet">
-<!--<link rel="stylesheet" type="text/css" href="../jquery/jquery.dataTables.css">  -->
+<link rel="stylesheet" type="text/css" href="../jquery/jquery.dataTables.css">  
 
 <script    src="../datatables/dataTables.bootstrap.js"></script>
 <!-- bootstrap js-->
-<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>-->
 <!-- DataTables -->
 <script    src="../datatables/jquery.dataTables.min.js"></script>
-<!--<script type="text/javascript" charset="utf8" src="../jquery/jquery.dataTables.js"></script>-->
+<script type="text/javascript" charset="utf8" src="../jquery/jquery.dataTables.js"></script>
 <script type="text/javascript" src="../proceso/ajax.js"></script>
 
 <script>
@@ -503,7 +543,7 @@ word-wrap:break-word;
             "language": {
                 "url": "../datatables/Spanish.json"
             },
-//             "pageLength": 5  ,
+             "pageLength": 10  ,
              bFilter: false, bInfo: false,"paging":   false, "ordering": false,
             "columnDefs": [    { "width": "10%", "targets": 0 }, 
                                { "width": "35%", "targets": 1 }, 

@@ -134,6 +134,7 @@ if ($_SESSION['logged'] != true ){
                             <option value="0">Seleccionar...</option>
                             <option value="DJP Ingreso">DJP Ingreso</option>
                             <option value="DJP Cese">DJP Cese</option>
+                            <option value="DJP Actualización">DJP Actualización</option>
                             <option value="Asesoría Instituciones Públicas">Asesoría Instituciones Públicas</option>
                             <option value="Asesoría Poder Popular">Asesoría Poder Popular</option>
                             <option value="SISROE">SISROE</option>

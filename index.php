@@ -88,6 +88,7 @@ switch ($tipo_proceso) {
 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 <!-- DataTables CSS -->
 <link href="datatables/dataTables.bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="jquery/jquery.dataTables.css">  
 <!-- jQuery -->
 <script type="text/javascript" charset="utf8" src="jquery/jquery-3.1.1.min.js"></script>  
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
@@ -240,16 +241,7 @@ switch ($tipo_proceso) {
                                 <th>Acción</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Código</th>
-                                <th>Observaciones</th>
-                                <th>Estatus</th>
-                                <th>Ciudadano</th>
-                                <th>Resolver antes de</th>
-                                <th>Acción</th>
-                            </tr>
-                        </tfoot>
+                        
                         <tbody>
                         </tbody>
                     </table>
@@ -290,14 +282,24 @@ switch ($tipo_proceso) {
         $('#procesos').dataTable({
             "serverSide": false,
             "ajax": "dashboard/datatable_json.php?opcion=<?php echo $proceso; ?>"   ,
+            "columns": [
+                            { "data": "codigo" },
+                            { "data": "observaciones" },
+                            { "data": "estatus" },
+                            { "data": "ciudadano" },
+                            { "data": "fecha" },
+                            { "data": "accion" }
+                        ],
             "language": {
                 "url": "datatables/Spanish.json"
             },
+            "order": [[ 0, "desc" ]],
+            
              "pageLength": 10  ,
             "columnDefs": [    { "width": "10%", "targets": 0 }, 
                                { "width": "35%", "targets": 1 }, 
                                { "width": "12%", "targets": 4 }, 
-                               { "width": "5%", "targets": 5 }, 
+                               { "width": "10%", "targets": 5 }, 
                 
                                { "searchable": false, "targets": [1,2,3,4,5] }]
         });
