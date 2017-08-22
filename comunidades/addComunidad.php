@@ -52,8 +52,9 @@ try {
 
 
 catch (Exception $ex) {
-    echo $ex->getMessage();
-    
+    if (23000 == $ex->getCode()){
+        echo "Esta comunidad ya existe, selecciónela en la pantalla anterior, luego haga clic en Comunidad y asóciela al municipio y parroquia correspondiente";
+    }
 }
     
 ?>

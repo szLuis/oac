@@ -13,13 +13,6 @@ header('Content-Transfer-Encoding: binary');
 header('Cache-Control: must-revalidate');
 header('Pragma: public');
 
-$header = array(
-    'Hechos'=>'string',
-    'Observaciones'=>'string',
-    'Fecha'=>'date',
-    'Comunidad'=>'string',
-    //'Direccion'=>'string',
-);
 
 $headerResumen = array(
     'Hechos'=>'string',
@@ -39,11 +32,38 @@ $fecha = date_create_from_format("d/m/Y", $fechaFinal) ;
 $fechaFinal = date_format($fecha, "Y-m-d");
 
 
-$query = "SELECT narracion_hechos, observaciones, atenciones.fecha_registro as fechareg, comunidades.comunidad as community
-            FROM atenciones
-            INNER JOIN comunidades ON comunidades.id_comunidad = atenciones.comunidad
-            WHERE atenciones.fecha_registro >=  '{$fechaInicial}'
-            AND atenciones.fecha_registro <=  '{$fechaFinal}'";
+$header = array(
+    'Items' => 'string',
+    'Nombres y Apellidos' => 'string',
+    'Cédula' => 'string',
+    'Ente u Organismo' => 'string',
+    'Municipio' => 'string',
+    'Parroquia' => 'string',
+    'Sector' => 'string',
+    'Hechos'=>'string',
+    'Observaciones'=>'string',
+    'Teléfono' => 'string',
+    'Fecha'=>'date',
+);
+
+$query = "SELECT @curRow := @curRow +1 AS items,
+                 CONCAT(nombres, ' ' , apellidos) AS nombre_completo, 
+                 cedula, 
+                 comunidades.comunidad AS ente, 
+                 municipio, 
+                 parroquia, 
+                 comunidades.comunidad AS community, 
+                 narracion_hechos, 
+                 observaciones,  
+                 telefonos, 
+                 atenciones.fecha_registro as fechareg 
+        FROM atenciones
+        INNER JOIN comunidades ON comunidades.id_comunidad = atenciones.comunidad
+        LEFT JOIN  parroquias_barinas ON parroquias_barinas.id = comunidades.id_parroquia
+        INNER JOIN ciudadanos ON ciudadanos.id_ciudadano = atenciones.id_ciudadano, 
+        (SELECT @curRow :=0 ) r
+        WHERE atenciones.fecha_registro >=  '{$fechaInicial}'
+        AND atenciones.fecha_registro <=  '{$fechaFinal}'";
         //, ciudadanos.direccion as address
         //LEFT JOIN ciudadanos ON ciudadanos.id_ciudadano = atenciones.id_ciudadano
 
