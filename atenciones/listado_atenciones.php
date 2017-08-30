@@ -135,6 +135,7 @@ word-wrap:break-word;
                         ...
                       </div>
                       <div class="modal-footer">
+                        <a class="btn btn-success pull-left" href="#" id="btn_imprimir_atencion_pdf" role="button"><strong>Imprimir</strong></a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                       </div>
                     </div>

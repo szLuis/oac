@@ -227,15 +227,16 @@ $(document).ready(function() {
             success: function(result) {
                     $('#myModalLabel').text(proceso.toUpperCase() + ': #' + codigo_proceso)
                     $('#myModalBody').html(result);
-                    //                            modal.find('.modal-body').html(result.narracion_hechos)
-                    //                            $('.modal-body').html(result.narracion_hechos)
-                    //                            .hide()
-                    //                            .fadeIn(1000)
-                    //.append("<p>We will be in touch soon.</p>")
-                    //.hide()
-                    /*.fadeIn(1500, function() {
-                            $('#result').append("<img id='checkmark' src='../../images/check.png' />");
-                    });*/
+                    $("#btn_imprimir_atencion_pdf").attr('href', 'detalles_atencion_pdf.php?tabla=' + tabla + '&proceso=' + proceso + '&codigo_proceso=' + codigo_proceso + '&id_proceso=' + id_proceso);
+                        //                            modal.find('.modal-body').html(result.narracion_hechos)
+                        //                            $('.modal-body').html(result.narracion_hechos)
+                        //                            .hide()
+                        //                            .fadeIn(1000)
+                        //.append("<p>We will be in touch soon.</p>")
+                        //.hide()
+                        /*.fadeIn(1500, function() {
+                                $('#result').append("<img id='checkmark' src='../../images/check.png' />");
+                        });*/
                 }
                 //                        ,
                 //                        dataType: 'json'

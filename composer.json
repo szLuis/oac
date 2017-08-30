@@ -3,7 +3,8 @@
         "bootstrap/bootstrap": "3.2.*",
         "jquery/jquery": "1.7.*",
         "jquery-ui/jquery-ui-1.11.3.custom": "1.11.3",
-        "tcpdf/tcpdf": "6.2.6"
-        
+        "tcpdf/tcpdf": "6.2.6",
+        "spipu/html2pdf": "^5.0"
+
     }
 }
