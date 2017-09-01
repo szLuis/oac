@@ -28,7 +28,7 @@ if (isset($_GET['opcion'])){
     $tipo_proceso = strtolower($_GET['opcion']);
     $proceso = $_GET['opcion'];
 }else{
-    header("Location:proceso/index.php");
+    header("Location:atenciones/index.php");
 }
 
 

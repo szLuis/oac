@@ -1,9 +1,11 @@
 <?php
 
+require_once '../dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
 
-require '../vendor/autoload.php';
+// require '../vendor/autoload.php';
 
- use Spipu\Html2Pdf\Html2Pdf;
+//  use Spipu\Html2Pdf\Html2Pdf;
  
 session_start();
 
@@ -37,17 +39,17 @@ if ($_SESSION['logged'] != true ){
         date_default_timezone_set('America/Caracas');
         $fecha = strftime("%A, %d de %B de %Y", strtotime($rs['fecha_registro_proceso']));
             
-        $html = '<div style="background: url(../imagenes/ceb_logo_small.png) no-repeat; line-height: 30px;"><h4 style="text-align:center; "><strong>REPÚBLICA BOLIVARIANA DE VENEZUELA</strong><br><strong>CONTRALORÍA DEL ESTADO BARINAS</strong></h4></div><br><br>';
+        $html = '<div style="background: url(../imagenes/ceb_logo_small.png) no-repeat; line-height: 45px;"><h4 style="text-align:center; "><strong>REPÚBLICA BOLIVARIANA DE VENEZUELA</strong><br><strong>CONTRALORÍA DEL ESTADO BARINAS</strong></h4></div><br><br>';
         
-        $html.= '<h4 style="text-align:center;"><strong>ATENCION # ' . $codigo_proceso . '</strong></h4><br><br>';
+        $html.= '<h4 style="text-align:center;"><strong>ATENCION # ' . $codigo_proceso . '</strong></h4><br>';
 
-        $html.= '<p style="text-align:right; "><strong>Registrada el ' . $fecha . '</strong></p>';
+        $html.= '<p style="text-align:right; font-size:13px; "><strong>Registrada el ' . $fecha . '</strong></p>';
 
         /*
         * Datos del ciudadano
         */
                 
-        $html.='<div style="width:100%; "><br><div style="float: none;width:100%; "><h4>Datos del Ciudadano</h4><hr style="margin-bottom: 5px; margin-top: 0px;">' ;
+        $html.='<div style="width:100%; "><div style="float: none;width:100%; "><h4>Datos del Ciudadano</h4><hr style="margin-bottom: 5px; margin-top: 0px;">' ;
         $html.='<p><b>Cédula:</b> ' . number_format($rs['cedula'],0,',','.') . '</p>' ;
         $html.='<p><b>Nombre:</b> ' . $rs['apellidos'];
         $html.=', ' . $rs['nombres'] . '</p>' ;
@@ -61,14 +63,14 @@ if ($_SESSION['logged'] != true ){
         * Datos de la atención
         */
                
-        $html.='<div style="width:100%; "><br><br><br><div style="float: none;width:100%; "><h4>Datos de la Atención</h4><hr style="margin-bottom: 5px; margin-top: 0px;"></div></div>' ;
-        $html.= '<p style="text-align:justify; margin-bottom: -2px; "><b>Tipo:</b> ' . trim(utf8_decode($rs['tipo_atencion'])) .'</p><br>';
-            $html.= '<p style="text-align:justify; margin-bottom: -2px;"><b>Tarea realizada:</b> ' . trim(utf8_decode($rs['narracion_hechos'])) .'</p><br>';
-        $html.= '<p style="text-align:justify; margin-bottom: -2px;"><b>Observaciones:</b> ' . trim(utf8_decode($rs['observaciones'])) .'</p><br>';
+        $html.='<div style="width:100%; "><br><div style="float: none;width:100%; "><h4>Datos de la Atención</h4><hr style="margin-bottom: 5px; margin-top: 0px;"></div></div>' ;
+        $html.= '<p style="text-align:justify;  "><b>Tipo:</b> ' . trim(utf8_decode($rs['tipo_atencion'])) .'</p><br>';
+            $html.= '<p style="text-align:justify; "><b>Tarea realizada:</b> ' . trim(utf8_decode($rs['narracion_hechos'])) .'</p><br>';
+        $html.= '<p style="text-align:justify; "><b>Observaciones:</b> ' . trim(utf8_decode($rs['observaciones'])) .'</p><br>';
 
   
 
-        $html.='<div style="float:none; width:100%; "><br><br><br><h4>Recibido en la OAC por el Funcionario:</h4>' . ($rs['nombre']) . '</div></div>';
+        $html.='<div style="float:none; width:100%; "><br><h4>Recibido en la OAC por el Funcionario:</h4>' . ($rs['nombre']) . '</div></div>';
 
 
 
@@ -90,9 +92,32 @@ if ($_SESSION['logged'] != true ){
         // echo $html;
 
         
-        $html2pdf = new Html2Pdf();
-        $html2pdf->writeHTML($html);
-        $html2pdf->output();
+        
+        try{
+
+            $dompdf = new Dompdf();
+            $dompdf->set_option('defaultFont', 'Helvetica');
+            $dompdf->loadHtml($html);
+            
+            // (Optional) Setup the paper size and orientation
+            $dompdf->setPaper('letter', 'portrait');
+            
+            // Render the HTML as PDF
+            $dompdf->render();
+            
+            // Output the generated PDF to Browser
+            $dompdf->stream('my.pdf',array('Attachment'=>0));
+
+            // $html2pdf = new Html2Pdf('P','A4','fr');
+            // // echo $html;
+            // $html2pdf->writeHTML('heeeey');
+            // // echo 'hey joe';
+            // $html2pdf->output('atencion.pdf');
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
+        
     }
     
     
