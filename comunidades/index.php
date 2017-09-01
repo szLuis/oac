@@ -5,6 +5,8 @@ if ($_SESSION['logged'] != true ){
     header("Location:../usuarios/");
     
 }else{
+    include '../spoon/spoon.php';   
+    $objDB= new DBConexion();
     
     if (isset($_GET['id_comunidad'])){
         $id_comunidad = $_GET['id_comunidad'];
@@ -72,6 +74,33 @@ if ($_SESSION['logged'] != true ){
             <fieldset>
                 <legend>Nueva comunidad</legend>
                 <input name="id_comunidad" type="hidden" value="<?php if (isset($_GET['id_comunidad'])){ echo $id_comunidad;} ?>"/>
+
+                    <div class="form-group">
+                        <label for="estados" class="col-md-4 control-label">
+                            Estado:
+                        </label>
+                        <div class="col-md-8" >	   
+                            <select id="estados" name="estados" class="form-control">
+                            <option value="0">Seleccionar</option>
+                            <?php
+                            try{
+                                $objDB->execute("SET NAMES utf8");
+                                $results_estados = $objDB->getRecords("SELECT * FROM estados");
+                            }
+
+                            catch(Exception $e){
+                                $e->getMessage();
+                            }
+                            
+                            foreach (  $results_estados as $fila )
+                            {
+                                echo '<option value="'.$fila["id_estado"].'">'.$fila["estado"].'</option>';
+                            }
+                            ?>                         
+                            </select>
+                            
+                        </div>   
+                    </div>
                     
                     <div class="form-group">
                         <label for="municipios" class="col-md-4 control-label">
@@ -79,28 +108,17 @@ if ($_SESSION['logged'] != true ){
                         </label>
                         <div class="col-md-8" >	   
                             <select id="municipios" name="municipios" class="form-control">
-                            <option value="Alberto Arvelo Torrealba">Alberto Arvelo Torrealba</option>
-                            <option value="Andrés Eloy Blanco">Andrés Eloy Blanco</option>
-                            <option value="Antonio José de Sucre">Antonio José de Sucre</option>
-                            <option value="Arismendi">Arismendi</option>
-                            <option value="Barinas" selected>Barinas</option>
-                            <option value="Bolívar">Bolívar</option>
-                            <option value="Cruz Paredes">Cruz Paredes</option>
-                            <option value="Ezequiel Zamora">Ezequiel Zamora</option>
-                            <option value="Obispos">Obispos</option>
-                            <option value="Pedraza">Pedraza</option>
-                            <option value="Rojas">Rojas</option>
-                            <option value="Sosa">Sosa</option>                                
+                                <option value="0">Seleccionar</option>                                                          
                             </select>
                         </div>   
                     </div>
 
                     <div class="form-group">
-                        <label for="parroquia" class="col-md-4 control-label">
+                        <label for="parroquias" class="col-md-4 control-label">
                             Parroquia:
                         </label>
                         <div class="col-md-8" >	   
-                            <select id="parroquia" name="parroquia" class="form-control">
+                            <select id="parroquias" name="parroquias" class="form-control">
                                 <option value="0">Seleccionar</option>
                             </select>
                         </div>   

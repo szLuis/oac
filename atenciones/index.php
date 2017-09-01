@@ -7,6 +7,10 @@ if ($_SESSION['logged'] != true ){
     $disabled = '';
     $readonly = '';
     $boton = 'Guardar';
+    
+    include '../spoon/spoon.php';   
+    $objDB= new DBConexion();
+
     if (isset($_GET['opcion'])){
         if ($_GET['opcion'] == "detalles"){
             $disabled = " disabled ";
@@ -52,6 +56,7 @@ if ($_SESSION['logged'] != true ){
             6 => "CGR",
             7 => "Por soportes"
         );
+        
         
         
         
@@ -204,49 +209,64 @@ if ($_SESSION['logged'] != true ){
                     <input name="txtid_ciudadano" type="hidden" value="<?php echo $txtuserkey; ?>"  id="txtid_ciudadano" />
 
                         <div class="form-group">
+                            <label for="estados" class="col-md-4 control-label">
+                                Estado:
+                            </label>
+                            <div class="col-md-8" >	   
+                                <select id="estados" name="estados" class="form-control">
+                                <option value="0">Seleccionar</option>
+                                <?php
+                                try{
+                                    $objDB->execute("SET NAMES utf8");
+                                    $results_estados = $objDB->getRecords("SELECT * FROM estados");
+                                }
+
+                                catch(Exception $e){
+                                    $e->getMessage();
+                                }
+                                
+                                foreach (  $results_estados as $fila )
+                                {
+                                    echo '<option value="'.$fila["id_estado"].'" >'.$fila["estado"].'</option>';
+                                }
+                                ?>                         
+                                </select>
+                                
+                            </div>   
+                        </div>
+
+                        <div class="form-group">
                             <label for="municipios" class="col-md-4 control-label">
                                 Municipio:
                             </label>
                             <div class="col-md-8" >	   
                                 <select id="municipios" name="municipios" class="form-control">
                                 <option value="0">Seleccionar</option>
-                                <option value="Alberto Arvelo Torrealba">Alberto Arvelo Torrealba</option>
-                                <option value="Andrés Eloy Blanco">Andrés Eloy Blanco</option>
-                                <option value="Antonio José de Sucre">Antonio José de Sucre</option>
-                                <option value="Arismendi">Arismendi</option>
-                                <option value="Barinas">Barinas</option>
-                                <option value="Bolívar">Bolívar</option>
-                                <option value="Cruz Paredes">Cruz Paredes</option>
-                                <option value="Ezequiel Zamora">Ezequiel Zamora</option>
-                                <option value="Obispos">Obispos</option>
-                                <option value="Pedraza">Pedraza</option>
-                                <option value="Rojas">Rojas</option>
-                                <option value="Sosa">Sosa</option>                                
+                                
                                 </select>
                             </div>   
                         </div>
 
                         <div class="form-group">
-                            <label for="parroquia" class="col-md-4 control-label">
+                            <label for="parroquias" class="col-md-4 control-label">
                                 Parroquia:
                             </label>
                             <div class="col-md-8" >	   
-                                <select id="parroquia" name="parroquia" class="form-control">
+                                <select id="parroquias" name="parroquias" class="form-control">
                                     <option value="0">Seleccionar</option>
                                 </select>
                             </div>   
                         </div>
 
                         <div class="form-group">
-                            <label for="comunidad" class="col-md-4 control-label">
+                            <label for="comunidades" class="col-md-4 control-label">
                                 <a id="nueva_comunidad" href="../comunidades/index.php">Comunidad:</a>
                             </label>
                             <div class="col-md-8" >	   
-                                <select id="comunidad" name="comunidad" class="form-control">
+                                <select id="comunidades" name="comunidades" class="form-control">
                                     <option value="0">Seleccionar...</option>
                                     <?php
-                                        include '../spoon/spoon.php';   
-                                        $objDB= new DBConexion();
+                                        
                                         $query = "SELECT id_comunidad, comunidad FROM comunidades ORDER BY comunidad ASC";
                                         $rs = $objDB->getRecords($query);
                                         foreach ($rs as $value) {
@@ -411,7 +431,8 @@ if ($_SESSION['logged'] != true ){
 </body>
 <script type="text/javascript">
 $(document).ready( function () {
-    $('#municipios option[value="Barinas"]').attr("selected",true).trigger('change');
+    $('#estados option[value="5"]').attr("selected",true).trigger('change');
+    // $('#municipios option[value="58"]').attr("selected",true).trigger('change');
     
         $('#procesos').dataTable({
             bFilter: false, bInfo: false,"paging":   false, "ordering": false,
@@ -439,8 +460,11 @@ $(document).ready( function () {
                 reclamos = result.reclamos;
                 var notif = showWebNotification('OAC - Próximas a ser rechazadas' , denuncias + " Denuncias\n" + solicitudes + " Solicitudes\n" + reclamos + " Reclamos\n"  , '../imagenes/google_calendar.png', null,8000);
                  //handle different events
+                 if (notif){
                     notif.addEventListener("show", Notification_OnEvent);
                     notif.addEventListener("click", Notification_OnEvent);
+                 }
+                    
 //                     notif.addEventListener("close", Notification_OnEvent);
                     
                 function Notification_OnEvent(event) {

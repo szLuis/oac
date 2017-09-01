@@ -8,7 +8,7 @@ session_start();
 
 $campos = array($_POST['comunidad']);
 
-$campos.= $_POST['parroquia'];
+$campos.= $_POST['parroquias'];
 
 foreach ($campos as $value) {
     if (empty($value))
@@ -17,7 +17,7 @@ foreach ($campos as $value) {
 
 $comunidad = trim($_POST['comunidad']);
 
-$id_parroquia  = $_POST['parroquia'];
+$id_parroquia  = $_POST['parroquias'];
 
 
 if (!isset($comunidad))
@@ -31,9 +31,10 @@ try {
     $_data['comunidad'] = $comunidad;
     $_data['id_parroquia'] = $id_parroquia;
 
-    if (isset($_POST['id_comunidad'],$_POST['parroquia']) && !empty($_POST['id_comunidad'])){
+    if (isset($_POST['id_comunidad'],$_POST['parroquias']) && !empty($_POST['id_comunidad'])){
         $id_comunidad = $_POST['id_comunidad'];
         $objDB = new DBConexion();
+        $objDB->execute("SET NAMES utf8");
         $update = $objDB->update("comunidades", $_data, 'id_comunidad' . ' = ?', $id_comunidad );
         if ($update===1){
             $processLastId = 1;
@@ -41,6 +42,7 @@ try {
     }else{
         
         $objDB = new DBConexion();
+        $objDB->execute("SET NAMES utf8");
         $processLastId = $objDB->insert("comunidades", $_data);
     }
 
@@ -53,7 +55,7 @@ try {
 
 catch (Exception $ex) {
     if (23000 == $ex->getCode()){
-        echo "Esta comunidad ya existe, selecciónela en la pantalla anterior, luego haga clic en Comunidad y asóciela al municipio y parroquia correspondiente";
+        echo "Esta comunidad ya existe, selecciónela en la pantalla anterior, luego haga clic en Comunidad y asóciela al estado, municipio y parroquia correspondiente";
     }
 }
     

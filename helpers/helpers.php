@@ -132,13 +132,25 @@
         return 0;
     } // end of get_fullname
 
-
-     function getParroquias($municipio){
+    function getMunicipios($id_estado){
         $objDB= new DBConexion();
         $objDB->execute("SET NAMES utf8");
-        $query = "SELECT id, parroquia "
-                . "FROM parroquias_barinas "
-                . "WHERE municipio = '$municipio'";
+        $query = "SELECT id_municipio, municipio FROM municipios WHERE id_estado = $id_estado";
+
+        $rs = $objDB->getRecords($query);
+        $numRows = $objDB->getNumRows($query);
+
+        if ($numRows > 0){
+
+            return $rs;
+        }
+        return "no hay";
+    } // end of getMunicipios
+
+    function getParroquias($id_municipio){
+        $objDB= new DBConexion();
+        $objDB->execute("SET NAMES utf8");
+        $query = "SELECT id_parroquia, parroquia FROM parroquias WHERE id_municipio = $id_municipio";
 
         $rs = $objDB->getRecords($query);
         $numRows = $objDB->getNumRows($query);
@@ -152,9 +164,8 @@
 
     function getComunidades($id_parroquia){
         $objDB= new DBConexion();
-        $query = "SELECT id_comunidad, comunidad 
-                  FROM comunidades 
-                  WHERE id_parroquia = $id_parroquia
+        $objDB->execute("SET NAMES utf8");
+        $query = "SELECT id_comunidad, comunidad FROM comunidades WHERE id_parroquia = $id_parroquia
                   ORDER BY comunidad ASC";
 
         $rs = $objDB->getRecords($query);
@@ -165,7 +176,7 @@
             return $rs;
         }
         return "no hay";
-    } // end of getParroquias
+    } // end of getComunidades
 
 
 
@@ -273,13 +284,18 @@
         echo json_encode($totalPorProceso);
     }
 
-    if (isset($_GET['municipio'])){
-        $parroquias = getParroquias($_GET['municipio']);
+    if (isset($_GET['id_estado'])){
+        $municipios = getMunicipios($_GET['id_estado']);
+        echo json_encode($municipios);
+    }
+
+    if (isset($_GET['id_municipio'])){
+        $parroquias = getParroquias($_GET['id_municipio']);
         echo json_encode($parroquias);
     }
 
-    if (isset($_GET['parroquia'])){
-        $comunidades = getComunidades($_GET['parroquia']);
+    if (isset($_GET['id_parroquia'])){
+        $comunidades = getComunidades($_GET['id_parroquia']);
         echo json_encode($comunidades);
     }
 

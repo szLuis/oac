@@ -41,22 +41,41 @@ $(document).ready(function() {
 
     //***************************************
     // Creamos el evento change para detectar el elemento elegido del combo Comunidad
-    $("#municipios").change(function() {
-        var municipio_seleccionado = $(this).val();
+    //Envia parametros de busca y carga de Municipios
+    $("#estados").change(function () {
+        var id_estado_seleccionado = $(this).val();
+        
+        $.ajax({
+            url: "../helpers/helpers.php",
+            data: { 'id_estado': id_estado_seleccionado },
+            type: 'GET',
+            success: function (result) {
+                $("#municipios").html("");
+                $("#municipios").append('<option value="0">Seleccionar</option>');
+                $.each(result, function (key, value) {
+                    $("#municipios").append(` <option value="${value.id_municipio}">${value.municipio}</option>`);
 
+                })
+            },
+            dataType: 'json'
+            
+        });
+        return false;
+    });
+
+    $("#municipios").change(function() {
+        var id_municipio_seleccionado = $(this).val();
 
         $.ajax({
             url: "../helpers/helpers.php",
-            data: { 'municipio': municipio_seleccionado },
+            data: { 'id_municipio': id_municipio_seleccionado },
             type: 'GET',
             success: function(result) {
-                $("#parroquia").html("");
-                $("#parroquia").append('<option value="0">Seleccionar</option>');
+                $("#parroquias").html("");
+                $("#parroquias").append('<option value="0">Seleccionar</option>');
                 $.each(result, function(key, value) {
-                    $("#parroquia").append(` <option value="${value.id}">${value.parroquia}</option>`);
-
+                    $("#parroquias").append(` <option value="${value.id_parroquia}">${value.parroquia}</option>`);
                 })
-
 
             },
             dataType: 'json'
@@ -65,23 +84,23 @@ $(document).ready(function() {
         return false;
     });
 
-    $("#parroquia").change(function() {
-        var parroquia_seleccionada = $(this).val();
+    $("#parroquias").change(function() {
+        var id_parroquia_seleccionada = $(this).val();
 
 
         $.ajax({
             url: "../helpers/helpers.php",
-            data: { 'parroquia': parroquia_seleccionada },
+            data: { 'id_parroquia': id_parroquia_seleccionada },
             type: 'GET',
             success: function(result) {
-                $("#comunidad").html("");
-                $("#comunidad").append('<option value="0">Seleccionar</option>');
-                $.each(result, function(key, value) {
-                    $("#comunidad").append(`<option value="${value.id_comunidad}">${value.comunidad}</option>`);
-
-                })
-
-
+                $("#comunidades").html("");
+                $("#comunidades").append('<option value="0">Seleccionar</option>');
+                if (result !== 'no hay') {
+                    $.each(result, function(key, value) {
+                        $("#comunidades").append(`<option value="${value.id_comunidad}">${value.comunidad}</option>`);
+                    })
+                }
+                
             },
             dataType: 'json'
         });
