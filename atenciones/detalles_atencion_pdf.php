@@ -38,39 +38,41 @@ if ($_SESSION['logged'] != true ){
         setlocale(LC_TIME, 'es_VE.UTF-8');
         date_default_timezone_set('America/Caracas');
         $fecha = strftime("%A, %d de %B de %Y", strtotime($rs['fecha_registro_proceso']));
-            
-        $html = '<div style="background: url(../imagenes/ceb_logo_small.png) no-repeat; line-height: 45px;"><h4 style="text-align:center; "><strong>REPÚBLICA BOLIVARIANA DE VENEZUELA</strong><br><strong>CONTRALORÍA DEL ESTADO BARINAS</strong></h4></div><br><br>';
+
         
-        $html.= '<h4 style="text-align:center;"><strong>ATENCION # ' . $codigo_proceso . '</strong></h4><br>';
+            
+        $html = '<div style="background: url(../imagenes/ceb_logo_small.png) no-repeat; padding-bottom: 45px; "><h4 style="text-align:center; font-size: 12px; line-height: 15px; "><strong>REPÚBLICA BOLIVARIANA DE VENEZUELA</strong><br><strong>CONTRALORÍA DEL ESTADO BARINAS</strong></h4></div>';
+        
+        $html.= '<h4 style="text-align:center; margin-top: -15px;"><strong>ATENCION # ' . $codigo_proceso . '</strong></h4><br>';
 
         $html.= '<p style="text-align:right; font-size:13px; "><strong>Registrada el ' . $fecha . '</strong></p>';
-
+ 
         /*
         * Datos del ciudadano
         */
                 
-        $html.='<div style="width:100%; "><div style="float: none;width:100%; "><h4>Datos del Ciudadano</h4><hr style="margin-bottom: 5px; margin-top: 0px;">' ;
-        $html.='<p><b>Cédula:</b> ' . number_format($rs['cedula'],0,',','.') . '</p>' ;
-        $html.='<p><b>Nombre:</b> ' . $rs['apellidos'];
+        $html.='<div style="width:100%; font-size: 12px; "><div style="float: none;width:100%; "><h4 style="margin-bottom: 2px;">Datos del Ciudadano</h4><hr style="margin-bottom: 15px; ">' ;
+        $html.='<p style="line-height: 10px;"><b>Cédula:</b> ' . number_format($rs['cedula'],0,',','.') . '</p>' ;
+        $html.='<p style="line-height: 8px;"><b>Nombre:</b> ' . $rs['apellidos'];
         $html.=', ' . $rs['nombres'] . '</p>' ;
 
-        $html.='<p><b>Teléfonos:</b> ' . $rs['telefonos'] . '</p>' ;
-        $html.='<p><b>Correo:</b> ' . $rs['correo'] . '</p>' ;
+        $html.='<p style="line-height: 8px;"><b>Teléfonos:</b> ' . $rs['telefonos'] . '</p>' ;
+        $html.='<p style="line-height: 8px;"><b>Correo:</b> ' . $rs['correo'] . '</p>' ;
 
-        $html.='<p><b>Dirección:</b> ' . $rs['direccion'] . '</p></div>' ;
+        $html.='<p style="line-height: 12px;"><b>Dirección:</b> ' . $rs['direccion'] . '</p></div>' ;
 
         /*
         * Datos de la atención
         */
                
-        $html.='<div style="width:100%; "><br><div style="float: none;width:100%; "><h4>Datos de la Atención</h4><hr style="margin-bottom: 5px; margin-top: 0px;"></div></div>' ;
-        $html.= '<p style="text-align:justify;  "><b>Tipo:</b> ' . trim(utf8_decode($rs['tipo_atencion'])) .'</p><br>';
-            $html.= '<p style="text-align:justify; "><b>Tarea realizada:</b> ' . trim(utf8_decode($rs['narracion_hechos'])) .'</p><br>';
-        $html.= '<p style="text-align:justify; "><b>Observaciones:</b> ' . trim(utf8_decode($rs['observaciones'])) .'</p><br>';
+        $html.='<div style="width:100%; font-size: 12px;"><br><div style="float: none;width:100%; "><h4 style="margin-bottom: 2px;">Datos de la Atención</h4><hr style="margin-bottom: 15px; "></div>' ;
+        $html.= '<p style="text-align:justify;  line-height: 10px; "><b>Tipo:</b> ' . trim(utf8_decode($rs['tipo_atencion'])) .'</p>';
+            $html.= '<p style="text-align:justify; line-height: 15px;"><b>Tarea realizada:</b> ' . trim(utf8_decode($rs['narracion_hechos'])) .'</p>';
+        $html.= '<p style="text-align:justify; line-height: 15px;"><b>Observaciones:</b> ' . trim(utf8_decode($rs['observaciones'])) .'</p></div>';
 
   
 
-        $html.='<div style="float:none; width:100%; "><br><h4>Recibido en la OAC por el Funcionario:</h4>' . ($rs['nombre']) . '</div></div>';
+        $html.='<div style="float:none; width:100%; "><br><h4>Recibido en la OAC por el Funcionario:</h4>' . ($rs['nombre']) . '</div>';
 
 
 

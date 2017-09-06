@@ -18,7 +18,7 @@ $campos = array($_POST['txtcedula'],
                 $_POST['txtcorreo'],
                 $_POST['txtobservaciones'],
                 $_POST['tipo_atencion'],
-                $_POST['comunidad']);
+                $_POST['comunidades']);
 
 foreach ($campos as $value) {
     if (empty($value)){
@@ -38,7 +38,7 @@ $txtdireccion = $_POST['txtdireccion'];
 $txttelefonos = $_POST['txttelefonos']; 
 $txtcorreo = $_POST['txtcorreo']; 
 
-$comunidad = $_POST['comunidad'];
+$comunidad = $_POST['comunidades'];
 $tipo_atencion = $_POST['tipo_atencion'];
 $txtobservaciones = $_POST['txtobservaciones'];
 $txtnarracionhechos = $_POST['txtnarracionhechos'];
