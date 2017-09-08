@@ -110,11 +110,6 @@ if ($_SESSION['logged'] != true ){
             // Output the generated PDF to Browser
             $dompdf->stream('my.pdf',array('Attachment'=>0));
 
-            // $html2pdf = new Html2Pdf('P','A4','fr');
-            // // echo $html;
-            // $html2pdf->writeHTML('heeeey');
-            // // echo 'hey joe';
-            // $html2pdf->output('atencion.pdf');
         }
         catch(Exception $e){
             echo $e->getMessage();

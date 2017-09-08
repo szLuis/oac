@@ -521,19 +521,20 @@ word-wrap:break-word;
 <!-- bootstrap CSS -->
 <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 
-<!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="../jquery/jquery-3.1.1.min.js"></script>  
-
 <!-- DataTables CSS -->
 <link href="../datatables/dataTables.bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../jquery/jquery.dataTables.css">  
 
-<script    src="../datatables/dataTables.bootstrap.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="../jquery/jquery-3.1.1.min.js"></script> 
+
 <!-- bootstrap js-->
-<!--<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>-->
+<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+
 <!-- DataTables -->
 <script    src="../datatables/jquery.dataTables.min.js"></script>
-<script type="text/javascript" charset="utf8" src="../jquery/jquery.dataTables.js"></script>
+<script    src="../datatables/dataTables.bootstrap.js"></script>
+
 <script type="text/javascript" src="../proceso/ajax.js"></script>
 
 <script>
